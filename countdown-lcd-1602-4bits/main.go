@@ -23,7 +23,7 @@ func main() {
 	}
 
 	println("Start")
-	lcd.Write([]byte("Countdown:"))
+	lcd.Write([]byte("Countdown (4b):"))
 	lcd.Display()
 	time.Sleep(1 * time.Second)
 
