@@ -48,9 +48,11 @@ make PORT=COM7 flash-countdown-lcd-1602-4bits
 
 ### Simulations
 
-| Project                              | Simulation |
+| Project                              | Simulation                                                          |
 |--------------------------------------|-------------------------------------------------------------------- |
 | countdown-lcd-1602-4bits             | [wokwi.com](https://wokwi.com/projects/387688265780407297)          |
 | countdown-lcd-1602-8bits             | [wokwi.com](https://wokwi.com/projects/387963009798348801)          |
+| 7-segment                            | [wokwi.com](https://wokwi.com/projects/388036275114081281)          |
+
 
 To flash on `wokwi.com`: `F1` then select `Upload Firmware and Start Simulation`.

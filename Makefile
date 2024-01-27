@@ -19,8 +19,8 @@ help: ## Display this help.
 
 TINYGO ?= tinygo
 GO_VERSION := $(shell grep 'go ' go.mod | cut -f 2 -d ' ')
-GO_COMMON_SOURCES := go.mod go.sum
-GO_PROJECTS := $(shell find ./ -maxdepth 1 -type d -regex '\./[^.].*')
+GO_COMMON_SOURCES := go.mod go.sum $(shell find pkg/ -type f)
+GO_PROJECTS := $(shell find ./ -maxdepth 1 -type d -regex '\./[^.].*' | grep -v pkg)
 HEX_ARTIFACTS := $(patsubst %,$(BUILD_DIR)/hex/%.hex,$(GO_PROJECTS))
 
 .PHONY: go
