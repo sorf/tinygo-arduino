@@ -7,41 +7,41 @@ import (
 	"github.com/sorf/tinygo-arduino/pkg/sevseg"
 )
 
-func require(err error) {
-	if err != nil {
-		panic(err.Error())
-	}
-}
-
 func main() {
 	m.Serial.Configure(m.UARTConfig{BaudRate: 9600})
 
-	d, err := sevseg.NewSevSeq(m.D2, m.D3, m.D4, m.D5, m.D6, m.D7, m.D8, m.D9)
-	if err != nil {
-		println("error: create seven-segment", err.Error())
-		return
+	d1 := sevseg.NewSevSeq(m.ADC0, m.ADC1, m.ADC2, m.ADC3, m.ADC4, m.ADC5, m.D12, m.D13)
+	d1.Configure()
+	d2 := sevseg.NewSevSeq(m.D2, m.D3, m.D4, m.D5, m.D6, m.D7, m.D8, m.D9)
+	d2.Configure()
+
+	chars1 := make([]byte, 0, 10+len(sevseg.SpecialCharacters))
+	for d := byte('0'); d <= '9'; d++ {
+		chars1 = append(chars1, d)
 	}
-	if err := d.Configure(); err != nil {
-		println("error: configure seven-segment", err.Error())
-		return
+	for _, s := range sevseg.SpecialCharacters {
+		chars1 = append(chars1, s)
+	}
+
+	chars2 := make([]byte, 0, int('z'-'a'))
+	for l := byte('a'); l <= 'z'; l++ {
+		chars2 = append(chars2, l)
 	}
 
 	dot := false
+	counter := 0
+	maxCounter := len(chars2)
 	for {
-		for i := 0; i < 16; i++ {
-			require(d.DisplayHexDot(uint8(i), dot))
-			time.Sleep(time.Second)
+		if counter == maxCounter {
+			d1.Clear()
+			d2.Clear()
+			counter = 0
+			dot = !dot
+		} else {
+			d1.DisplayDot(chars1[counter%len(chars1)], dot)
+			d2.DisplayDot(chars2[counter%len(chars2)], dot)
+			counter++
 		}
-		require(d.DisplayJustDot())
 		time.Sleep(time.Second)
-		d.Clear()
-		time.Sleep(time.Second)
-
-		for c := sevseg.FirstLetter; c <= sevseg.LastLetter; c++ {
-			require(d.DisplayDot(c, dot))
-			time.Sleep(time.Second)
-		}
-
-		dot = !dot
 	}
 }
