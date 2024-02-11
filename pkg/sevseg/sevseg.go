@@ -175,7 +175,7 @@ func (d *Device) DisplayDot(c byte, dot bool) error {
 	} else if c >= 'a' && c <= 'z' {
 		d.display(int(c-'a')+indexA, dot)
 	} else if c >= 'A' && c <= 'Z' {
-		d.display(int(c-'a')+indexA, dot)
+		d.display(int(c-'A')+indexA, dot)
 	} else {
 		switch c {
 		case ' ':
